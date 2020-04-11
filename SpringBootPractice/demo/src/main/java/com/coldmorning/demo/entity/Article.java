@@ -1,4 +1,4 @@
-package com.coldmorning.demo.controller.entity;
+package com.coldmorning.demo.entity;
 
 public class Article {
     
@@ -18,6 +18,9 @@ public class Article {
         this.id = id;
     }
 
+    public StringBuilder getArticleContent(){
+        return this.articleContent;
+    }
     public void setArticleContent(StringBuilder articleContent){
         this.articleContent = articleContent;
     }
