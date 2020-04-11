@@ -1,6 +1,7 @@
 package com.coldmorning.demo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.coldmorning.demo.entity.Article;
 
@@ -52,6 +54,20 @@ public class ArticleController {
         }
         return ResponseEntity.notFound().build();
     } 
+    @GetMapping(value = "/GET")
+    public ResponseEntity<List<Article>> getProducts(@RequestParam(value = "searchWord", required = false) String searchWord) {
+        List<Article> Article;
+        
+        if (searchWord == null) {
+            Article = ArticleDB;
+        } else {
+            Article = ArticleDB.stream()
+                    .filter(p -> p.getTitle().contains(searchWord))
+                    .collect(Collectors.toList());
+        }
+        
+        return ResponseEntity.ok(Article);
+    }
 
     @PostMapping(value="/POST1/")
     public ResponseEntity<Article> createArtice(@RequestBody Article reqest){
