@@ -6,7 +6,7 @@ public class Article {
     String author;
     String id;
     String floorNumber;
-    StringBuilder articleContent;
+    String articleContent;
     /**
      * @return the name
      */
@@ -18,10 +18,10 @@ public class Article {
         this.id = id;
     }
 
-    public StringBuilder getArticleContent(){
+    public String getArticleContent(){
         return this.articleContent;
     }
-    public void setArticleContent(StringBuilder articleContent){
+    public void setArticleContent(String articleContent){
         this.articleContent = articleContent;
     }
 

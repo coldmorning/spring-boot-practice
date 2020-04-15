@@ -1,5 +1,6 @@
 package com.coldmorning.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.coldmorning.demo.entity.Article;
+import com.coldmorning.demo.service.ArticleService;
 
+import javax.xml.ws.Service;
 
 /**
  * ArticleWorldController
@@ -29,86 +32,40 @@ import com.coldmorning.demo.entity.Article;
 
 public class ArticleController {
 
-    private List<Article> ArticleDB = new ArrayList<>();
 
-    @GetMapping(value="/GET1/{id}")
-    public Article getArticle(@PathVariable("id") String id) {
-        Article Article = new Article();
-        Article.setId(id);
-        return Article;
-    }
 
-    @GetMapping(value="/GET2/{id}")
-    public ResponseEntity<Article>getArticle2 (@PathVariable("id")  String id) {
-        Article Article = new Article();
-        Article.setId(id);
-        return ResponseEntity.ok(Article);
-    }
+    @Autowired
+    private ArticleService articleService;
 
-    @GetMapping(value="/GET3/{id}")
+    @GetMapping(value="/{id}")
     public ResponseEntity<Article> getArticle3 (@PathVariable("id")  String id) {
-        Optional<Article> articleOp = ArticleDB.stream().filter(p->p.getId().equals(id)).findFirst();
-        if(articleOp.isPresent()){
-            Article Article = articleOp.get();
-            return ResponseEntity.ok().body(Article);
-        }
-        return ResponseEntity.notFound().build();
-    } 
-    @GetMapping(value = "/GET")
-    public ResponseEntity<List<Article>> getProducts(@RequestParam(value = "searchWord", required = false) String searchWord) {
-        List<Article> Article;
-        
-        if (searchWord == null) {
-            Article = ArticleDB;
-        } else {
-            Article = ArticleDB.stream()
-                    .filter(p -> p.getTitle().contains(searchWord))
-                    .collect(Collectors.toList());
-        }
-        
-        return ResponseEntity.ok(Article);
+        Article articleOp = articleService.getArticle(id);
+        return ResponseEntity.ok(articleOp);
     }
 
-    @PostMapping(value="/POST1/")
-    public ResponseEntity<Article> createArtice(@RequestBody Article reqest){
-        boolean isIdPresent = ArticleDB.stream().anyMatch(p->p.getId().equals(reqest.getId())); 
+    @GetMapping
+    public ResponseEntity<List<Article>> getProducts(@RequestParam(value = "searchKey", required = false) String searchKey) {
+        return ResponseEntity.ok(articleService.getArticles(searchKey));
+    }
 
-        if(isIdPresent){
-
-            return ResponseEntity.unprocessableEntity().build();
-        }
-        Article article = new Article();
-        article.setId(reqest.getId());
-        article.setTitle(reqest.getTitle());
-        article.setArticleContent(reqest.getArticleContent());
-        ArticleDB.add(article);
-    
+    @PostMapping
+    public ResponseEntity<Article> createArtice(@RequestBody Optional<Article>  reqest){
+        Article article = articleService.createArticle(reqest);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
     }
 
-    @PutMapping(value="/PUT1/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable("id") String id, @RequestBody Article request){
-        Optional<Article> articleOp= ArticleDB.stream().filter(p->p.getId().equals(id)).findFirst();
-        if(!articleOp.isPresent()){
-            return ResponseEntity.notFound().build();
-        }
-        Article article = new Article();
-        Article OriArticle = articleOp.get();
-        article.setId(OriArticle.getId());
-        article.setTitle(request.getTitle());
-        article.setArticleContent(request.getArticleContent());
-        ArticleDB.add(ArticleDB.indexOf(OriArticle), article);
+    @PutMapping(value="/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable("id") String id, @RequestBody Optional<Article> request){
+        Article article= articleService.updateArticle(id,request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
     }
 
-    @DeleteMapping(value="/DELETE1/{id}")
+    @DeleteMapping(value="/{id}")
     public ResponseEntity<Article> deleteArticle(@PathVariable("id") String id){
-        Optional<Article> articleOp = ArticleDB.stream().filter(p->p.getId().equals(id)).findFirst();
-        if(articleOp.isPresent()){
-            ArticleDB.remove(articleOp.get());      
-        }
+        articleService.deleteArticle(id);
+
         return ResponseEntity.noContent().build();
     }
 
