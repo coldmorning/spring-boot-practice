@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.coldmorning.demo.entity.Article;
 import com.coldmorning.demo.service.ArticleService;
-
-import javax.xml.ws.Service;
 
 /**
  * ArticleWorldController
@@ -31,8 +27,6 @@ import javax.xml.ws.Service;
 @RequestMapping(value="/Article")
 
 public class ArticleController {
-
-
 
     @Autowired
     private ArticleService articleService;
@@ -49,15 +43,15 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Article> createArtice(@RequestBody Optional<Article>  reqest){
-        Article article = articleService.createArticle(reqest);
+    public ResponseEntity<Article> createArtice(@RequestBody Article request){
+        Article article = articleService.createArticle(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
     }
 
-    @PutMapping(value="/{id}")
-    public ResponseEntity<Article> updateArticle(@PathVariable("id") String id, @RequestBody Optional<Article> request){
-        Article article= articleService.updateArticle(id,request);
+    @PutMapping
+    public ResponseEntity<Article> updateArticle( @RequestBody Article request){
+        Article article= articleService.updateArticle(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
     }
