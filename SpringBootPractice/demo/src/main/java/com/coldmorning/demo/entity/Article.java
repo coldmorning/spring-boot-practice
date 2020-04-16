@@ -3,12 +3,11 @@ package com.coldmorning.demo.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "article")
-public class Article {
+public   class Article {
     
-    String title;
+    String subject;
     String author;
     String id;
-    String floorNumber;
     String articleContent;
     /**
      * @return the name
@@ -28,12 +27,12 @@ public class Article {
         this.articleContent = articleContent;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setTitle(String title){
-        this.title = title;
+    public void setSubject(String title){
+        this.subject = title;
     }
 
 }

@@ -21,7 +21,7 @@ public class ArticleService {
     public List<Article> getArticles(String searchKey){
         if(searchKey == null){ return ArticleRepository.findAll();}
         else{
-            return  ArticleRepository.findAll().stream().filter(p->p.getTitle().contains(searchKey)).collect(Collectors.toList());
+            return  ArticleRepository.findAll().stream().filter(p->p.getSubject().contains(searchKey)).collect(Collectors.toList());
         }
     }
 
@@ -33,7 +33,7 @@ public class ArticleService {
         Article article = new Article();
         article.setId(request.getId());
         article.setArticleContent(request.getArticleContent());
-        article.setTitle(request.getTitle());
+        article.setSubject(request.getSubject());
         ArticleRepository.insert(article);
         return article;
     }
@@ -43,7 +43,7 @@ public class ArticleService {
         if (oriArticle.isPresent()){
             oriArticle.get().setId(request.getId());
             oriArticle.get().setArticleContent(request.getArticleContent());
-            oriArticle.get().setTitle(request.getTitle());
+            oriArticle.get().setSubject(request.getSubject());
             ArticleRepository.save(oriArticle.get());
             return  oriArticle.get();
         }
