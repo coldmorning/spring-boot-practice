@@ -3,7 +3,7 @@ package com.coldmorning.demo.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "article")
-public   class Article {
+public class Article {
     
     String subject;
     String author;

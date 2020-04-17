@@ -42,7 +42,7 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<Article> createArtice(@RequestBody Article request){
+    public ResponseEntity<Article> createArticle(@RequestBody Article request){
         Article article = articleService.createArticle(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
