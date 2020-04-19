@@ -1,5 +1,6 @@
 package com.coldmorning.demo.service;
 import com.coldmorning.demo.entity.Article;
+import com.coldmorning.demo.entity.ArticleRequest;
 import com.coldmorning.demo.repositorys.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class ArticleService {
         }
     }
 
-    public Article createArticle(Article request){
+    public Article createArticle(ArticleRequest request){
         Optional<Article> articleDB = ArticleRepository.findById(request.getId());
         if (articleDB.isPresent()){
             articleDB.orElseThrow(()-> new NotFoundException("Article does exist"));
@@ -37,7 +38,7 @@ public class ArticleService {
         ArticleRepository.insert(article);
         return article;
     }
-    public Article updateArticle(Article request){
+    public Article updateArticle(ArticleRequest request){
 
         Optional<Article> oriArticle = ArticleRepository.findById(request.getId());
         if (oriArticle.isPresent()){

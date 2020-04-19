@@ -1,5 +1,6 @@
 package com.coldmorning.demo.controller;
 
+import com.coldmorning.demo.entity.ArticleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,8 @@ import java.util.List;
 import com.coldmorning.demo.entity.Article;
 import com.coldmorning.demo.service.ArticleService;
 
+import javax.validation.Valid;
+
 /**
  * ArticleWorldController
  */
@@ -37,19 +40,19 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Article>> getProducts(@RequestParam(value = "searchKey", required = false) String searchKey) {
+    public ResponseEntity<List<Article>> getProducts(@Valid @RequestParam(value = "searchKey", required = false) String searchKey) {
         return ResponseEntity.ok(articleService.getArticles(searchKey));
     }
 
     @PostMapping
-    public ResponseEntity<Article> createArticle(@RequestBody Article request){
+    public ResponseEntity<Article> createArticle(@Valid @RequestBody ArticleRequest request){
         Article article = articleService.createArticle(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);
     }
 
     @PutMapping
-    public ResponseEntity<Article> updateArticle( @RequestBody Article request){
+    public ResponseEntity<Article> updateArticle(@Valid @RequestBody ArticleRequest request){
         Article article= articleService.updateArticle(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(article.getId()).toUri();
         return ResponseEntity.created(location).body(article);

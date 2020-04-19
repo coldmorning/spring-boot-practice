@@ -109,4 +109,16 @@ public class ArticleTest {
                .andExpect(status().isNoContent());
         articleRepository.findById(article.getId()).orElseThrow(RuntimeException::new);
     }
+
+    @Test
+    public void get400WhenUpdateArticleWithEmptySubjectOrID()  throws Exception{
+        Article article = createTestArticle();
+        articleRepository.insert(article);
+        JSONObject requestJson = new JSONObject();
+        requestJson.put("subject", "");
+        requestJson.put("id", "");
+        mockMvc.perform(post("/Article/").headers(httpHeaders).content(requestJson.toString()))
+                .andExpect(status().isBadRequest());// Assert the response status code is HttpStatus.ok (400)
+    }
+
 }
