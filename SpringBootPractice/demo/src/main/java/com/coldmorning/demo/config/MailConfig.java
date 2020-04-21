@@ -1,34 +1,47 @@
 package com.coldmorning.demo.config;
 
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.Properties;
+
 @Component
-@ConfigurationProperties(prefix = "gmail")
+@ConfigurationProperties(prefix = "mail")
 @PropertySource("classpath:gmail.properties")
 public class MailConfig {
 
-    @Value("${spring.mail.host}")
     private String gmailHost;
-
-    @Value("${spring.mail.port}")
     private String gmailPort;
+    private String gmailUsername;
+    private String gmailPassword;
+    private String gmailSmtpAuth;
+    private String gmailStarttlsEnable;
 
-    @Value("${spring.mail.username}")
-    private String gUsername;
 
-    @Value("${spring.mail.password}")
-    private String gpassword;
+    public Properties gmailConfig(){
+        Properties props = new Properties();
+        props.put("spring.mail.host",gmailHost);
+        props.put("spring.mail.port",gmailPort);
+        props.put("spring.mail.username",gmailUsername);
+        props.put("spring.mail.password",gmailPassword);
+        props.put("spring.mail.properties.mail.smtp.auth",gmailSmtpAuth);
+        props.put("spring.mail.properties.mail.smtp.starttls.enable",gmailStarttlsEnable);
+        return props;
+    }
 
-    @Value("${spring.mail.properties.mail.smtp.auth}")
-    private String smtpAuth;
-
-    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
-    private String starttlsEable;
+    @Override
+    public String toString() {
+        return "MailConfig{" +
+                "gmailHost='" + gmailHost + '\'' +
+                ", gmailPort='" + gmailPort + '\'' +
+                ", gmailUsername='" + gmailUsername + '\'' +
+                ", gmailPassword='" + gmailPassword + '\'' +
+                ", gmailSmtpAuth='" + gmailSmtpAuth + '\'' +
+                ", gmailStarttlsEnable='" + gmailStarttlsEnable + '\'' +
+                '}';
+    }
 
     public String getGmailHost() {
         return gmailHost;
@@ -46,36 +59,36 @@ public class MailConfig {
         this.gmailPort = gmailPort;
     }
 
-    public String getgUsername() {
-        return gUsername;
+    public String getGmailUsername() {
+        return gmailUsername;
     }
 
-    public void setgUsername(String gUsername) {
-        this.gUsername = gUsername;
+    public void setGmailUsername(String gmailUsername) {
+        this.gmailUsername = gmailUsername;
     }
 
-    public String getGpassword() {
-        return gpassword;
+    public String getGmailPassword() {
+        return gmailPassword;
     }
 
-    public void setGpassword(String gpassword) {
-        this.gpassword = gpassword;
+    public void setGmailPassword(String gmailPassword) {
+        this.gmailPassword = gmailPassword;
     }
 
-    public String getSmtpAuth() {
-        return smtpAuth;
+    public String getGmailSmtpAuth() {
+        return gmailSmtpAuth;
     }
 
-    public void setSmtpAuth(String smtpAuth) {
-        this.smtpAuth = smtpAuth;
+    public void setGmailSmtpAuth(String gmailSmtpAuth) {
+        this.gmailSmtpAuth = gmailSmtpAuth;
     }
 
-    public String getStarttlsEable() {
-        return starttlsEable;
+    public String getGmailStarttlsEnable() {
+        return gmailStarttlsEnable;
     }
 
-    public void setStarttlsEable(String starttlsEable) {
-        this.starttlsEable = starttlsEable;
+    public void setGmailStarttlsEnable(String gmailStarttlsEnable) {
+        this.gmailStarttlsEnable = gmailStarttlsEnable;
     }
 }
 

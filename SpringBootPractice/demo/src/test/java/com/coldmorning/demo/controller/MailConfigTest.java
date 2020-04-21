@@ -16,7 +16,7 @@ public class MailConfigTest {
 
     @Test
     public void contextLoads(){
-        System.out.println(mailConfig);
+        System.out.println(mailConfig.toString());
     }
 
 }
