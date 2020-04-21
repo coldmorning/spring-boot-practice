@@ -10,11 +10,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.ws.rs.NotFoundException;
 
-@Service
+
 public class ArticleService {
 
-    @Autowired
     private ArticleRepository ArticleRepository;
+
+    public ArticleService(ArticleRepository ArticleRepository){
+        this.ArticleRepository =ArticleRepository;
+    }
+
     public Article getArticle(String id){
         return  ArticleRepository.findById(id).orElseThrow(()-> new NotFoundException("Article not find"));
     }
