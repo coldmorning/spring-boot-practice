@@ -6,19 +6,17 @@ import java.util.List;
 @Document(collection = "emailArticle")
 public class Mail extends  Article{
     private String contentType;
-    private String mailFrom;
     private String mailTo;
+   /*
+	"subject":"hello world"
+	"articleContent":"hi man",
+    "mailFrom":"apple@yahoo.com.tw",
+    "mailTo":"xxxxx0@gmail.com"
 
+    */
     private List<Object> attachments;
     public Mail() {
         contentType = "text/plain";
-    }
-
-    public void  setMailFrom( String mailFrom) {
-        this.mailFrom = mailFrom;;
-    }
-    public String getMailFrom(){
-        return this.mailFrom;
     }
 
     public void  setMailTo( String mailTo) {
