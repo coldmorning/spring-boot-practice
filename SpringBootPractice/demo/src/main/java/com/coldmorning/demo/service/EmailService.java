@@ -1,36 +1,42 @@
 package com.coldmorning.demo.service;
 
 import com.coldmorning.demo.entity.Mail;
-
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
-
+import javax.mail.Authenticator;
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
 
+import java.util.Properties;
 
-
-@Service("EmailService")
+@Service
 public class EmailService  {
 
     @Autowired
-    JavaMailSender mailSender;
+    public JavaMailSender emailSender;
 
-    public void sendEmail(Mail mail) {
+    public String sendEmail(Mail mailRequest) {
 
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
-            MimeMessageHelper MessageHelper = new MimeMessageHelper(mimeMessage, true);
-            MessageHelper.setSubject(mail.getSubject());
-            MessageHelper.setTo(mail.getMailTo());
-            MessageHelper.setText(mail.getArticleContent());
-            mailSender.send(MessageHelper.getMimeMessage());
 
+            MimeMessageHelper MessageHelper = new MimeMessageHelper(mimeMessage, true);
+            MessageHelper.setSubject(mailRequest.getSubject());
+            MessageHelper.setTo(mailRequest.getMailTo());
+            MessageHelper.setText(mailRequest.getArticleContent());
+            emailSender.send(MessageHelper.getMimeMessage());
+
+            return "Email sent sucessfully";
         } catch (MessagingException e) {
             e.printStackTrace();
+            return "Email sent error";
         }
     }
 }

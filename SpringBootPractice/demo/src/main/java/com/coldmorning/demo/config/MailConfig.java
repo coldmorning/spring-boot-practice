@@ -1,10 +1,13 @@
 package com.coldmorning.demo.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
-
+;
+import javax.mail.internet.AddressException;
 import java.util.Properties;
 
 @Component
@@ -12,35 +15,47 @@ import java.util.Properties;
 @PropertySource("classpath:gmail.properties")
 public class MailConfig {
 
+    private int gmailPort;
     private String gmailHost;
-    private String gmailPort;
     private String gmailUsername;
     private String gmailPassword;
-    private String gmailSmtpAuth;
-    private String gmailStarttlsEnable;
+    private boolean gmailSmtpAuth;
+    private boolean smtpStarttlsEnable;
 
+    @Bean
+    public JavaMailSender gmailConfig() throws AddressException {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost(gmailHost);
+        mailSender.setPort(gmailPort);
+        mailSender.setUsername(gmailUsername);
+        mailSender.setPassword(gmailPassword);
 
-    public Properties gmailConfig(){
         Properties props = new Properties();
-        props.put("spring.mail.host",gmailHost);
-        props.put("spring.mail.port",gmailPort);
-        props.put("spring.mail.username",gmailUsername);
-        props.put("spring.mail.password",gmailPassword);
         props.put("spring.mail.properties.mail.smtp.auth",gmailSmtpAuth);
-        props.put("spring.mail.properties.mail.smtp.starttls.enable",gmailStarttlsEnable);
-        return props;
+        props.put("mail.smtp.starttls.enable", smtpStarttlsEnable);
+        mailSender.setJavaMailProperties(props);
+
+        return mailSender;
     }
 
     @Override
     public String toString() {
         return "MailConfig{" +
-                "gmailHost='" + gmailHost + '\'' +
-                ", gmailPort='" + gmailPort + '\'' +
+                "gmailPort=" + gmailPort +
+                ", gmailHost='" + gmailHost + '\'' +
                 ", gmailUsername='" + gmailUsername + '\'' +
                 ", gmailPassword='" + gmailPassword + '\'' +
-                ", gmailSmtpAuth='" + gmailSmtpAuth + '\'' +
-                ", gmailStarttlsEnable='" + gmailStarttlsEnable + '\'' +
+                ", gmailSmtpAuth=" + gmailSmtpAuth +
+                ", smtpStarttlsEnable=" + smtpStarttlsEnable +
                 '}';
+    }
+
+    public int getGmailPort() {
+        return gmailPort;
+    }
+
+    public void setGmailPort(int gmailPort) {
+        this.gmailPort = gmailPort;
     }
 
     public String getGmailHost() {
@@ -49,14 +64,6 @@ public class MailConfig {
 
     public void setGmailHost(String gmailHost) {
         this.gmailHost = gmailHost;
-    }
-
-    public String getGmailPort() {
-        return gmailPort;
-    }
-
-    public void setGmailPort(String gmailPort) {
-        this.gmailPort = gmailPort;
     }
 
     public String getGmailUsername() {
@@ -75,20 +82,20 @@ public class MailConfig {
         this.gmailPassword = gmailPassword;
     }
 
-    public String getGmailSmtpAuth() {
+    public boolean isGmailSmtpAuth() {
         return gmailSmtpAuth;
     }
 
-    public void setGmailSmtpAuth(String gmailSmtpAuth) {
+    public void setGmailSmtpAuth(boolean gmailSmtpAuth) {
         this.gmailSmtpAuth = gmailSmtpAuth;
     }
 
-    public String getGmailStarttlsEnable() {
-        return gmailStarttlsEnable;
+    public boolean isSmtpStarttlsEnable() {
+        return smtpStarttlsEnable;
     }
 
-    public void setGmailStarttlsEnable(String gmailStarttlsEnable) {
-        this.gmailStarttlsEnable = gmailStarttlsEnable;
+    public void setSmtpStarttlsEnable(boolean smtpStarttlsEnable) {
+        this.smtpStarttlsEnable = smtpStarttlsEnable;
     }
 }
 
