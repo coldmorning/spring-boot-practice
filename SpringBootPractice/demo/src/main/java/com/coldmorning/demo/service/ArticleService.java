@@ -2,8 +2,6 @@ package com.coldmorning.demo.service;
 import com.coldmorning.demo.entity.Article;
 import com.coldmorning.demo.entity.ArticleRequest;
 import com.coldmorning.demo.repositorys.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
