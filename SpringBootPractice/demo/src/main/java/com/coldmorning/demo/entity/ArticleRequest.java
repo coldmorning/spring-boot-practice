@@ -8,7 +8,7 @@ public class ArticleRequest {
     String subject;
     @NotEmpty (message = "id may not be empty")
     String id;
-    String articleContent;
+    String articleContent="";
 
     public String getId() {
         return this.id;

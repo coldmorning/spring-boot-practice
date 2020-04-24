@@ -1,7 +1,7 @@
 package com.coldmorning.demo.controller;
 
 
-import com.coldmorning.demo.entity.Mail;
+import com.coldmorning.demo.entity.MailRequest;
 import com.coldmorning.demo.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ public class SentEmailController {
     private EmailService emailService;
 
     @PostMapping(value="/sendEmail")
-    public String sentEmail(@RequestBody Mail mail){
+    public String sentEmail(@RequestBody MailRequest mail){
         return  emailService.sendEmail(mail);
     }
 
