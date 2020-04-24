@@ -1,0 +1,25 @@
+#Website port setting
+server:
+  port: 8900
+spring:
+  profiles:
+    active: #/ /dev/test/prod
+---
+#dev Website port setting
+server:
+  port: 8081
+spring:
+  profiles: dev
+---
+#test Website port setting
+  server:
+    port: 8901
+  spring:
+    profiles: test
+---
+#prod Website port setting
+server:
+  port: 9000
+spring:
+  profiles: prod
+
