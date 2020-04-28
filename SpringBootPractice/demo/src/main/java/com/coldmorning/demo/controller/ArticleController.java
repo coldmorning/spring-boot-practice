@@ -34,7 +34,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<Article> getArticle3 (@PathVariable("id")  String id) {
+    public ResponseEntity<Article> getArticle (@PathVariable("id")  String id) {
         Article articleOp = articleService.getArticle(id);
         return ResponseEntity.ok(articleOp);
     }

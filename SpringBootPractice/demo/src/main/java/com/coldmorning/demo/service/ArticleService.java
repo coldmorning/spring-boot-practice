@@ -30,8 +30,8 @@ public class ArticleService {
 
     public Article createArticle(ArticleRequest request){
         Optional<Article> articleDB = ArticleRepository.findById(request.getId());
-        if (articleDB.isPresent()){
-            articleDB.orElseThrow(()-> new NotFoundException("Article does exist"));
+        if (articleDB.isPresent() || request.getId() == null){
+            articleDB.orElseThrow(()-> new NotFoundException("Article does exist/null"));
         }
         Article article = new Article();
         article.setId(request.getId());
