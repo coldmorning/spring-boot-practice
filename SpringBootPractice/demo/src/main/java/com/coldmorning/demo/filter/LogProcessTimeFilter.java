@@ -1,5 +1,7 @@
 package com.coldmorning.demo.filter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -12,11 +14,13 @@ public class LogProcessTimeFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        Logger logger = LoggerFactory.getLogger(getClass());
         long startTime = System.currentTimeMillis();
         filterChain.doFilter(request, response);
         long processTime = System.currentTimeMillis() - startTime;
 
-;
-        System.out.println(String.join("Log:"," ",String.valueOf(processTime) , " ms"));
+        logger.info("[Time] "+ String.valueOf(processTime) +" ms");
+
     }
 }
