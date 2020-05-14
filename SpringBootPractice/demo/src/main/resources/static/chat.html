@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Coldmorning ChatRoom</title>
+</head>
+<body onload="disconnect()">
+    <div>
+        <div>
+            <input type="text" id="nickName" placeholder="Please input the nickname"/>
+        </div>
+        <br/>
+        <div>
+            <button id="connect" onclick="connect();">Connect</button>
+            <button id="disconnect" disabled onclick="disconnect();">Disconnect</button>
+        </div>
+        <br/>
+        <div id="conversationDiv">
+            <input type="text" id="inputMessage" placeholder="Please input messages"/>
+            <button id="sendMessage" onclick="sendMessage();">Send</button>
+            <p id="response"></p>
+        </div>
+    </div>
+    <script src="./js/sockjs-0.3.4.js"></script>
+    <script src="./js/stomp.js"></script>
+    <script type="./js/chatRoom.js">
+
+    </script>
+</body>
