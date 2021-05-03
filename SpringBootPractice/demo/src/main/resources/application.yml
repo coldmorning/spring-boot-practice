@@ -3,13 +3,27 @@ server:
   port: 8900
 spring:
   profiles:
-    active: #/ /dev/test/prod
+    active: dev #/ /dev/test/prod
 ---
 #dev Website port setting
 server:
   port: 8081
 spring:
   profiles: dev
+  # Redis configuration.
+  ## As we are running Redis on Docker we are setting up its configuration.
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: mmzsblog
+    timeout: 2000s
+    lettuce:
+      pool:
+        max-wait: 60s
+        max-idle: 10
+        min-idle: 10
+        max-activ: 8
 ---
 #test Website port setting
   server:
